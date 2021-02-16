@@ -8,6 +8,8 @@ let light: any, dark: any;
 let darkCustomizations: any, lightCustomizations: any;
 let lightTime: number, darkTime: number;
 
+let themeKey = "workbench.colorTheme";
+
 function updateSettings() {
   config = vscode.workspace.getConfiguration("AutoThemeSwitch");
   //Dark Theme
@@ -21,12 +23,10 @@ function updateSettings() {
   lightTime = config.lightTime; //Start lightTime
 }
 
-export function activate(context: vscode.ExtensionContext) {
-  let themeKey = "workbench.colorTheme";
-  updateSettings();
+function apply_changes()
+{
   let time = new Date();
   const hours = time.getHours();
-
   if (lightTime < hours && hours >= darkTime) {
     //Set Dark Theme
     userConfig.update(themeKey, dark, true);
@@ -44,4 +44,13 @@ export function activate(context: vscode.ExtensionContext) {
       true
     );
   }
+}
+export function activate(context: vscode.ExtensionContext) 
+{
+  context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
+    updateSettings();
+    apply_changes();
+	}));
+  updateSettings();
+  apply_changes();
 }
