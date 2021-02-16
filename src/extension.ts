@@ -1,27 +1,47 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+"use strict";
+import * as vscode from "vscode";
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+//Get User config
+const userConfig = vscode.workspace.getConfiguration();
+let config;
+let light: any, dark: any;
+let darkCustomizations: any, lightCustomizations: any;
+let lightTime: number, darkTime: number;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "autothemeswitch" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('autothemeswitch.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from AutoThemeSwitch!');
-	});
-
-	context.subscriptions.push(disposable);
+function updateSettings() {
+  config = vscode.workspace.getConfiguration("AutoThemeSwitch");
+  //Dark Theme
+  dark = config.dark;
+  darkCustomizations = config.darkCustomizations;
+  //Light Theme
+  light = config.light;
+  lightCustomizations = config.lightCustomizations;
+  //Time
+  darkTime = config.darkTime; //Start of darkTime
+  lightTime = config.lightTime; //Start lightTime
 }
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+export function activate(context: vscode.ExtensionContext) {
+  let themeKey = "workbench.colorTheme";
+  updateSettings();
+  let time = new Date();
+  const hours = time.getHours();
+
+  if (lightTime < hours && hours >= darkTime) {
+    //Set Dark Theme
+    userConfig.update(themeKey, dark, true);
+    userConfig.update(
+      "workbench.colorCustomizations",
+      darkCustomizations,
+      true
+    );
+  } else {
+    //Set Light Theme
+    userConfig.update(themeKey, light, true);
+    userConfig.update(
+      "workbench.colorCustomizations",
+      lightCustomizations,
+      true
+    );
+  }
+}
