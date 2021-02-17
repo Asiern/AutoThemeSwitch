@@ -48,13 +48,13 @@
           "description": "Light theme color customizations"
         },
         "AutoThemeSwitch.darkTime": {
-          "type": "number",
-          "default": "20",
+          "type": "string",
+          "default": "20:00",
           "description": "Hour(24h) of the start of the dark theme"
         },
         "AutoThemeSwitch.lightTime": {
-          "type": "number",
-          "default": "7",
+          "type": "string",
+          "default": "7:00",
           "description": "Hour(24h) of the start of the light theme"
         }
       }
