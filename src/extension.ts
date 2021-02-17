@@ -26,7 +26,7 @@ function updateSettings() {
 function applyChanges() {
   let time = new Date();
   const hours = time.getHours();
-  if (lightTime < hours && hours < darkTime) {
+  if (lightTime <= hours && hours < darkTime) {
     //Set Light Theme
     userConfig.update(themeKey, light, true);
     userConfig.update(
