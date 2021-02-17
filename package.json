@@ -1,7 +1,7 @@
 {
   "name": "autothemeswitch",
   "displayName": "AutoThemeSwitch",
-  "description": "Change themes automatically based on current time",
+  "description": "Automatically change between dark and light theme based on schedules.",
   "author": {
     "name": "Asiern",
     "url": "https://github.com/Asiern"
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/Asiern/AutoThemeSwitch"
   },
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.53.0"
   },
@@ -50,12 +50,12 @@
         "AutoThemeSwitch.darkTime": {
           "type": "string",
           "default": "20:00",
-          "description": "Hour(24h) of the start of the dark theme"
+          "description": "Hour(24h) of the start of the dark theme. Format HH:MM"
         },
         "AutoThemeSwitch.lightTime": {
           "type": "string",
           "default": "7:00",
-          "description": "Hour(24h) of the start of the light theme"
+          "description": "Hour(24h) of the start of the light theme. Format HH:MM"
         }
       }
     }

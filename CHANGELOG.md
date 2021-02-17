@@ -1,15 +1,13 @@
 # Change Log
 
-All notable changes to the "autothemeswitch" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
 ## [Unreleased]
+
+## [1.0.0] - 2021-02-17
 
 ### Added
 
 - Extension reload when settings are updated
-- parseTime function to parse string time
+- parseTime function to parse string to time
 
 ### Modified
 
