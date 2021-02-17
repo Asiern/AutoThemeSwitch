@@ -23,19 +23,10 @@ function updateSettings() {
   lightTime = config.lightTime; //Start lightTime
 }
 
-function apply_changes()
-{
+function applyChanges() {
   let time = new Date();
   const hours = time.getHours();
-  if (lightTime < hours && hours >= darkTime) {
-    //Set Dark Theme
-    userConfig.update(themeKey, dark, true);
-    userConfig.update(
-      "workbench.colorCustomizations",
-      darkCustomizations,
-      true
-    );
-  } else {
+  if (lightTime < hours && hours < darkTime) {
     //Set Light Theme
     userConfig.update(themeKey, light, true);
     userConfig.update(
@@ -43,14 +34,23 @@ function apply_changes()
       lightCustomizations,
       true
     );
+  } else {
+    //Set Dark Theme
+    userConfig.update(themeKey, dark, true);
+    userConfig.update(
+      "workbench.colorCustomizations",
+      darkCustomizations,
+      true
+    );
   }
 }
-export function activate(context: vscode.ExtensionContext) 
-{
-  context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
-    updateSettings();
-    apply_changes();
-	}));
+export function activate(context: vscode.ExtensionContext) {
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration((e) => {
+      updateSettings();
+      applyChanges();
+    })
+  );
   updateSettings();
-  apply_changes();
+  applyChanges();
 }
