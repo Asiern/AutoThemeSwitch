@@ -13,7 +13,10 @@ let themeKey = "workbench.colorTheme";
 //Parse string time to object
 function parseTime(va: string) {
   let t = va.split(":");
-  return Number(t[0])+(Number(t[1])/60);
+  if (t.length !== 2) {
+    throw new Error("Could not parse time");
+  }
+  return Number(t[0]) + Number(t[1]) / 60;
 }
 
 function updateSettings() {
@@ -31,33 +34,51 @@ function updateSettings() {
 
 function applyChanges() {
   let time = new Date();
-  const hours = time.getHours() + (time.getMinutes()/60);
+  const hours = time.getHours() + time.getMinutes() / 60;
+  //Get current theme from userConfig
+  const currentTheme = userConfig.get("workbench.colorTheme");
   if (lightTime <= hours && hours < darkTime) {
     //Set Light Theme
-    userConfig.update(themeKey, light, true);
-    userConfig.update(
-      "workbench.colorCustomizations",
-      lightCustomizations,
-      true
-    );
+    if (currentTheme !== light) {
+      userConfig.update(themeKey, light, true);
+      userConfig.update(
+        "workbench.colorCustomizations",
+        lightCustomizations,
+        true
+      );
+      vscode.window.showInformationMessage("Theme set to light " + light);
+    }
   } else {
     //Set Dark Theme
-    userConfig.update(themeKey, dark, true);
-    userConfig.update(
-      "workbench.colorCustomizations",
-      darkCustomizations,
-      true
-    );
+    if (currentTheme !== dark) {
+      userConfig.update(themeKey, dark, true);
+      userConfig.update(
+        "workbench.colorCustomizations",
+        darkCustomizations,
+        true
+      );
+      vscode.window.showInformationMessage("Theme set to " + dark);
+    }
   }
 }
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
-      updateSettings();
-      applyChanges();
+      try {
+        updateSettings();
+        applyChanges();
+      } catch (e) {
+        vscode.window.showErrorMessage(e);
+        console.log(e);
+      }
     })
   );
-  updateSettings();
-  applyChanges();
+  try {
+    updateSettings();
+    applyChanges();
+  } catch (e) {
+    vscode.window.showErrorMessage(e);
+    console.log(e);
+  }
 }

@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Added
+
+- InformationMessage when changing theme
+- ParseTime throws an error when parameter sring is not correct.
+- Only change theme when current theme !== desired theme
+- Error catching
+
 ## [1.0.0] - 2021-02-17
 
 ### Added
