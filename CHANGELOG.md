@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2021-07-28
+
+### Updated
+
+- Dependencies
+
 ## [1.0.0] - 2021-02-17
 
 ### Added
